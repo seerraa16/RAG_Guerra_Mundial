@@ -2,15 +2,17 @@ import faiss
 import pickle
 import json
 from sentence_transformers import SentenceTransformer
-from config import VECTOR_INDEX_DIR, CHUNKS_FILE
+from config import VECTOR_INDEX_DIR, PROCESSED_DATA_DIR
 
 VECTOR_INDEX_DIR.mkdir(parents=True, exist_ok=True)
 
-# Cargar chunks
+# Cargar chunks de Wikipedia y análisis manual
 docs = []
-with open(CHUNKS_FILE, "r", encoding="utf-8") as f:
-    for line in f:
-        docs.append(json.loads(line))
+
+for file in ["ww2_docs.jsonl", "ww2_analysis.jsonl"]:
+    with open(PROCESSED_DATA_DIR / file, "r", encoding="utf-8") as f:
+        for line in f:
+            docs.append(json.loads(line))
 
 print(f"[INFO] Chunks cargados: {len(docs)}")
 
